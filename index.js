@@ -11,7 +11,7 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
 app.get('/', function(request, response) {
-  response.render('index.html');
+  response.render('pages/index');
 });
 
 app.get('/cool', function(request, response) {
@@ -21,3 +21,5 @@ app.get('/cool', function(request, response) {
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
 });
+
+
