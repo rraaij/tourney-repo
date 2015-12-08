@@ -1,25 +1,18 @@
-var cool = require('cool-ascii-faces');
-var express = require('express');
-var app = express();
 
-app.set('port', (process.env.PORT || 5000));
+var app = require('express')();
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
 
-app.use(express.static(__dirname + '/public'));
-
-// views is directory for all template files
-app.set('views', __dirname + '/views');
-app.set('view engine', 'ejs');
-
-app.get('/', function(request, response) {
-  response.render('pages/index');
+app.get('/', function(req, res){
+  res.sendFile(__dirname + '/index.html');
 });
 
-app.get('/cool', function(request, response) {
-  response.send(cool());
+io.on('connection', function(socket){
+  socket.on('chat message', function(msg){
+    io.emit('chat message', msg);
+  });
 });
 
-app.listen(app.get('port'), function() {
-  console.log('Node app is running on port', app.get('port'));
+http.listen(3000, function(){
+  console.log('listening on *:3000');
 });
-
-
